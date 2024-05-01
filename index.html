@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Zeyada&display=swap" rel="stylesheet">
+    <title>Dragging features</title>
+    <style>
+        .imgs img {
+            position: relative;
+            height: 200px;
+            width: 300px;
+        }
+
+        .chg img {
+            position: relative;
+            height: 270px;
+            width: 229px;
+        }
+
+        .paper {
+            padding: 30px 30px;
+            position: absolute;
+            border: 5px solid black;
+            background-size: 500px;
+            background-position: center center;
+            background-image: url('https://cdn.pixabay.com/photo/2016/06/20/13/44/paper-1468883_640.jpg');
+            background-size: cover;
+            cursor: pointer;
+        }
+
+        body {
+            height: 100vh;
+            background: rgb(2, 0, 36);
+            background: linear-gradient(90deg, rgba(2, 0, 36, 1) 0%, rgba(9, 9, 121, 1) 6%, rgba(0, 212, 255, 1) 100%);
+            font-family: "Zeyada", cursive;
+            font-weight: 400;
+            font-style: normal;
+            display: flex;
+            font-size: 45px;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .two {
+            padding: 5px 5px;
+            background-size: cover;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="paper col1">
+        Thanks for Giving your Precious Time 😊
+    </div>
+    <div class="paper col2"></div>
+    <div class="paper col2 imgs">
+        <img src="./images/a11.jpg" alt="">
+    </div>
+    <div class="paper col2 imgs">
+        <img src="./images/a10.jpg" alt="">
+    </div>
+    <div class="paper col2 imgs">
+        <img src="./images/a9.jpg" alt="">
+    </div>
+    <div class="paper col2 imgs">
+        <img src="./images/a8.jpg" alt="">
+    </div>
+    <div class="paper col2 imgs chg">
+        <img src="./images/a7.jpg" alt="">
+    </div>
+    <div class="paper col2 imgs">
+        <img src="./images/a6.jpg" alt="">
+    </div>
+    <div class="paper col2 imgs chg">
+        <img src="./images/a5.jpg" alt="">
+    </div>
+    <div class="paper col2 imgs">
+        <img src="./images/a4.jpg" alt="">
+    </div>
+    <div class="paper col2 imgs">
+        <img src="./images/a3.jpg" alt="">
+    </div>
+    <div class="paper col2 imgs">
+        <img src="./images/a2.jpg" alt="">
+    </div>
+    <div class="paper col2 imgs">
+        <img src="./images/a1.jpg" alt="">
+    </div>
+    <div class="paper col2">
+        <p>Now , coming the magic !!!</p>
+    </div>
+    <div class="paper col2 two">
+        <p>Wow, you are going good keep it up, 😀</p>
+        <p>Now, put this to the top right !!!</p>
+    </div>
+    <div class="paper col2">
+        Now, drag it to the left and leave it!😊
+    </div>
+    <div class="paper col2 a1">
+        Please drag it right to the screen and leave it ! 😄
+    </div>
+    <script>
+        let highestZ = 1;
+        class Paper {
+
+            holdingPaper = false;
+
+            prevMouseX = 0;
+            prevMouseY = 0;
+
+            mouseX = 0;
+            mouseY = 0;
+
+            velocityX = 0;
+            velocityY = 0;
+
+            currentPaperX = 0
+            currentPaperY = 0
+
+            init(paper) {
+                paper.addEventListener('mousedown', (e) => {
+                    this.holdingPaper = true;
+                    paper.style.zIndex = highestZ;
+                    highestZ += 1;
+
+                    console.log(e.button)
+                    if (e.button === 0) {
+                        this.prevMouseX = this.mouseX;
+                        this.prevMouseY = this.mouseY;
+                        console.log(this.prevMouseX)
+                        console.log(this.prevMouseY)
+
+                    }
+                })
+
+                document.addEventListener('mousemove', (e) => {
+                    this.mouseX = e.clientX;
+                    this.mouseY = e.clientY;
+
+                    this.velocityX = this.mouseX - this.prevMouseX
+                    this.velocityY = this.mouseY - this.prevMouseY
+                    if (this.holdingPaper) {
+
+                        this.currentPaperX += this.velocityX
+                        this.currentPaperY += this.velocityY
+
+                        this.prevMouseX = this.mouseX
+                        this.prevMouseY = this.mouseY
+                        paper.style.transform = `translateX(${this.currentPaperX}px) translateY(${this.currentPaperY}px) `
+                    }
+                })
+                window.addEventListener('mouseup', (e) => {
+                    this.holdingPaper = false;
+                })
+            }
+        }
+        const papers = Array.from(document.querySelectorAll('.paper'));
+        papers.forEach(paper => {
+            const p = new Paper();
+            p.init(paper);
+        })
+        var musicPlayed = false;
+        function playMusic() {
+            if(!musicPlayed){
+                var audio = new Audio('./images/mus.mp3');
+                audio.play();
+                musicPlayed = true;
+            }
+            // Create an audio element
+            // Play the audio
+        }
+
+        // Add event listener to the document
+        document.addEventListener('click', function () {
+            // Call the playMusic function when the document is clicked
+            playMusic();
+        });
+    </script>
+</body>
+
+</html>
